@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.springboot.dao.masterdata.MdProductInfoMapper">
+  <resultMap id="BaseResultMap" type="com.yh.springboot.model.MdProductInfo">
+    <id column="productCode" jdbcType="VARCHAR" property="productCode" />
+    <result column="productName" jdbcType="VARCHAR" property="productName" />
+    <result column="productBarCode" jdbcType="VARCHAR" property="productBarCode" />
+    <result column="shortName" jdbcType="VARCHAR" property="shortName" />
+    <result column="smallCategoryCode" jdbcType="VARCHAR" property="smallCategoryCode" />
+    <result column="brandCode" jdbcType="VARCHAR" property="brandCode" />
+    <result column="barType" jdbcType="VARCHAR" property="barType" typeHandler="com.yh.springboot.dao.type.EnumTypeHandler" />
+    <result column="productType" jdbcType="VARCHAR" property="productType" typeHandler="com.yh.springboot.dao.type.EnumTypeHandler" />
+    <result column="productFlag" jdbcType="CHAR" property="productFlag" />
+    <result column="taxRate" jdbcType="BIGINT" property="taxRate" />
+    <result column="qualitativePeriod" jdbcType="DECIMAL" property="qualitativePeriod" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="spec" jdbcType="VARCHAR" property="spec" />
+    <result column="ppiTax" jdbcType="DECIMAL" property="ppiTax" />
+    <result column="contractPrice" jdbcType="DECIMAL" property="contractPrice" />
+    <result column="netWeight" jdbcType="DECIMAL" property="netWeight" />
+    <result column="grossWeight" jdbcType="DECIMAL" property="grossWeight" />
+    <result column="season" jdbcType="VARCHAR" property="season" typeHandler="com.yh.springboot.dao.type.EnumTypeHandler" />
+    <result column="placeOrigin" jdbcType="VARCHAR" property="placeOrigin" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="purchasingLevel" jdbcType="VARCHAR" property="purchasingLevel" />
+    <result column="ename" jdbcType="VARCHAR" property="ename" />
+    <result column="priceBeltType" jdbcType="VARCHAR" property="priceBeltType" />
+    <result column="countryOrigin" jdbcType="VARCHAR" property="countryOrigin" />
+    <result column="creatorId" jdbcType="BIGINT" property="creatorId" />
+    <result column="createdStamp" jdbcType="TIMESTAMP" property="createdStamp" />
+    <result column="updateStamp" jdbcType="TIMESTAMP" property="updateStamp" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+	productCode, productName, productBarCode,
+	shortName, smallCategoryCode,
+	brandCode,
+	barType, productType,
+	productFlag, taxRate, qualitativePeriod,
+	unit, spec, ppiTax,
+	contractPrice, netWeight, grossWeight,
+	season,
+	placeOrigin,
+	manufacturer, purchasingLevel, ename,
+	priceBeltType,
+	countryOrigin, creatorId,
+	createdStamp, updateStamp
+  </sql>
+  
+  <insert id="add" parameterType="com.yh.springboot.model.MdProductInfo">
+    insert into md_product_info (productCode, productName, productBarCode, 
+      shortName, smallCategoryCode, brandCode, 
+      barType, 
+      productType, 
+      productFlag, taxRate, qualitativePeriod, 
+      unit, spec, ppiTax, 
+      contractPrice, netWeight, grossWeight, 
+      season, placeOrigin, 
+      manufacturer, purchasingLevel, ename, 
+      priceBeltType, countryOrigin, creatorId, 
+      createdStamp, updateStamp)
+    values (#{productCode,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{productBarCode,jdbcType=VARCHAR}, 
+      #{shortName,jdbcType=VARCHAR}, #{smallCategoryCode,jdbcType=VARCHAR}, #{brandCode,jdbcType=VARCHAR}, 
+      #{barType,jdbcType=VARCHAR,typeHandler=com.yh.springboot.dao.type.EnumTypeHandler},
+      #{productType,jdbcType=VARCHAR,typeHandler=com.yh.springboot.dao.type.EnumTypeHandler},
+      #{productFlag,jdbcType=CHAR}, #{taxRate,jdbcType=BIGINT}, #{qualitativePeriod,jdbcType=DECIMAL}, 
+      #{unit,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, #{ppiTax,jdbcType=DECIMAL}, 
+      #{contractPrice,jdbcType=DECIMAL}, #{netWeight,jdbcType=DECIMAL}, #{grossWeight,jdbcType=DECIMAL}, 
+      #{season,jdbcType=VARCHAR,typeHandler=com.yh.springboot.dao.type.EnumTypeHandler}, #{placeOrigin,jdbcType=VARCHAR},
+      #{manufacturer,jdbcType=VARCHAR}, #{purchasingLevel,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, 
+      #{priceBeltType,jdbcType=VARCHAR}, #{countryOrigin,jdbcType=VARCHAR}, #{creatorId,jdbcType=BIGINT}, 
+      #{createdStamp,jdbcType=TIMESTAMP}, #{updateStamp,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <select id="getModel" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from md_product_info
+    where productCode = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getByProductCode" resultMap="BaseResultMap">
+    select
+    *
+    from md_product_info
+    where productCode = #{productCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getByProductBarCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from md_product_info
+    where productBarCode = #{productBarCode,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

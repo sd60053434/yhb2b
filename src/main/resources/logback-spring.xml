@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="log.sql.level" value="debug"/>
+    <property name="log.app.level" value="debug"/>
+    <property name="log.info.level" value="info"/>
+    <property name="APP_NAME" value="yh-springboot" />
+    <property name="LOG_HOME" value="c:/temp" />
+    <property name="LOG_FILE" value="log.txt" />
+<!--     <property name="KAFKA_SERVER" value="@elk.kafka_server@" /> -->
+<!--     <property name="KAFKA_TOPIC" value="@elk.topic@" /> -->
+    <!--<conversionRule conversionWord="ipandhostname" converterClass="com.yonghui.config.IPConvert" />-->
+<!--     <conversionRule conversionWord="ipandhostname" converterClass="com.yonghui.b2b.config.LogIPConvert" /> -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+<!--             <pattern>%d{yyyy-MM-dd HH:mm:ss}|${APP_NAME}|%-5level|%ipandhostname|[%thread]| %logger{50}| %msg%n</pattern> -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}|${APP_NAME}|%-5level|[%thread]| %logger{50}| %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- uncomment this if require kafka appender -->
+<!--     <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender"> -->
+<!--         <encoder class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder"> -->
+<!--             <layout class="ch.qos.logback.classic.PatternLayout"> -->
+<!--                 <pattern>%d{yyyy-MM-dd HH:mm:ss}|${APP_NAME}|%-5level|%ipandhostname|[%thread]| %logger{50}| %msg%n</pattern> -->
+<!--             </layout> -->
+<!--         </encoder> -->
+<!--         <topic>${KAFKA_TOPIC}</topic> -->
+<!--         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.RoundRobinKeyingStrategy" /> -->
+<!--         <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" /> -->
+<!--         <producerConfig>bootstrap.servers=${KAFKA_SERVER}</producerConfig> -->
+<!--         <producerConfig>max.block.ms=100</producerConfig> -->
+<!--         <appender-ref ref="STDOUT" /> -->
+<!--     </appender> -->
+    <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${LOG_FILE}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+<!--             <pattern>%d{yyyy-MM-dd HH:mm:ss}|${APP_NAME}|%-5level|%ipandhostname|[%thread]| %logger{50}| %msg%n</pattern> -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}|${APP_NAME}|%-5level|[%thread]| %logger{50}| %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="com.ibatis" level="${log.sql.level}" />
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="${log.sql.level}" />
+    <logger name="com.ibatis.common.jdbc.ScriptRunner" level="${log.sql.level}" />
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="${log.sql.level}" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="java.sql" level="${log.sql.level}" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="java.sql.Connection" level="${log.sql.level}" />
+    <logger name="java.sql.Statement" level="${log.sql.level}" />
+    <logger name="java.sql.PreparedStatement" level="${log.sql.level}" />
+    <logger name="java.sql.ResultSet" level="${log.sql.level}" />
+    <!-- project default level -->
+    <logger name="cn.iautos.manager" level="${log.sql.level}" />
+    <logger name="jdbc.sqltiming" level="${log.sql.level}" />
+    <logger name="com.yh.b2b.merchant" level="${log.app.level}" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="org.springframework" level="${log.app.level}" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+        <!-- uncomment this if require kafka appender -->
+        <!--<appender-ref ref="kafkaAppender"/>-->
+    </root>
+</configuration>
